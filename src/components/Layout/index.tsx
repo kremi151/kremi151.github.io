@@ -18,7 +18,7 @@ import {
 import {ChevronLeft, ChevronRight, Menu as MenuIcon,} from '@material-ui/icons';
 import {Route, Switch as RouterSwitch, Link} from "react-router-dom";
 import {navigationRoutes} from "../../navigation/routes";
-import {DrawerCategory, RouteEntry} from "../../navigation/types";
+import {DrawerCategory, DrawerLogoProps, RouteEntry} from "../../navigation/types";
 
 const drawerWidth = 240;
 
@@ -84,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const defaultLogoProps: DrawerLogoProps = {
+    width: 24,
+    height: 24,
+};
+
 function DrawerMenuItem(props: RouteEntry) {
     const {
         path,
@@ -99,7 +104,7 @@ function DrawerMenuItem(props: RouteEntry) {
     return (
         <ListItem button component={Link} to={path}>
             <ListItemIcon>
-                {React.createElement(logo)}
+                {React.createElement(logo, defaultLogoProps)}
             </ListItemIcon>
             <ListItemText primary={title}/>
         </ListItem>

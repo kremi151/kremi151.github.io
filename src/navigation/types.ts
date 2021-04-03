@@ -5,10 +5,15 @@ export enum DrawerCategory {
     PRODUCT,
 }
 
+export interface DrawerLogoProps {
+    readonly width: number;
+    readonly height: number;
+}
+
 export interface DrawerEntry {
     readonly category: DrawerCategory;
     readonly title: string;
-    readonly logo: React.FC;
+    readonly logo: React.FC<DrawerLogoProps>;
 }
 
 export interface RouteEntry {

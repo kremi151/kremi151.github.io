@@ -2,10 +2,11 @@ import React from 'react';
 import logo from './logo.png';
 import {Typography} from "@material-ui/core";
 import './styles.css';
+import {DrawerLogoProps} from "../../navigation/types";
 
-export function Logo() {
+export function Logo(props: DrawerLogoProps) {
     return (
-        <img src={logo} width={24} height={24} />
+        <img src={logo} width={props.width} height={props.height} />
     );
 }
 
