@@ -5,24 +5,20 @@ import {
     CssBaseline,
     Divider,
     Drawer,
-    IconButton, List, ListItem, ListItemIcon, ListItemText,
+    IconButton,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
     makeStyles,
     Toolbar,
     Typography,
     useTheme
 } from "@material-ui/core";
-import {
-    ChevronRight,
-    ChevronLeft,
-    Menu as MenuIcon,
-    Inbox as InboxIcon,
-    Mail as MailIcon,
-} from '@material-ui/icons';
-import {
-    Route,
-    Switch as RouterSwitch,
-} from "react-router-dom";
+import {ChevronLeft, ChevronRight, Menu as MenuIcon,} from '@material-ui/icons';
+import {Route, Switch as RouterSwitch, Link} from "react-router-dom";
 import {navigationRoutes} from "../../navigation/routes";
+import {DrawerCategory, RouteEntry} from "../../navigation/types";
 
 const drawerWidth = 240;
 
@@ -88,6 +84,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function DrawerMenuItem(props: RouteEntry) {
+    const {
+        path,
+        drawer,
+    } = props;
+    if (!drawer) {
+        return null;
+    }
+    const {
+        logo,
+        title,
+    } = drawer;
+    return (
+        <ListItem button component={Link} to={path}>
+            <ListItemIcon>
+                {React.createElement(logo)}
+            </ListItemIcon>
+            <ListItemText primary={title}/>
+        </ListItem>
+    );
+}
+
 export default function Layout() {
     const classes = useStyles();
     const theme = useTheme();
@@ -147,20 +165,14 @@ export default function Layout() {
                 </div>
                 <Divider/>
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
+                    {navigationRoutes.filter(({drawer}) => drawer?.category === DrawerCategory.DEFAULT).map((entry, index) => (
+                        <DrawerMenuItem {...entry} key={`default_entry_${index}`} />
                     ))}
                 </List>
                 <Divider/>
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
+                    {navigationRoutes.filter(({drawer}) => drawer?.category === DrawerCategory.PRODUCT).map((entry, index) => (
+                        <DrawerMenuItem {...entry} key={`product_entry_${index}`} />
                     ))}
                 </List>
             </Drawer>
