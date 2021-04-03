@@ -4,6 +4,7 @@ import {Typography} from "@material-ui/core";
 import './styles.css';
 import {DrawerLogoProps} from "../../navigation/types";
 import {useAppBarTitle} from "../../context";
+import PlayStoreBadge from "../../components/PlayStoreBadge";
 
 export function Logo(props: DrawerLogoProps) {
     return (
@@ -18,18 +19,7 @@ export default function PrintAdjusterPage() {
             <Typography paragraph>
                 This page is currently under construction 🚧
             </Typography>
-            <div>
-                <a href="https://play.google.com/store/apps/details?id=lu.kremi151.printresizer&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-                    <img
-                        className="playStoreBadge"
-                        alt="Get it on Google Play"
-                        src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                    />
-                </a>
-                <Typography variant="caption" display="block" gutterBottom>
-                    Google Play and the Google Play logo are trademarks of Google LLC.
-                </Typography>
-            </div>
+            <PlayStoreBadge appPackageName="lu.kremi151.printresizer" />
         </div>
     );
 }
