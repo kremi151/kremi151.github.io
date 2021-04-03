@@ -187,7 +187,7 @@ export default function Layout() {
                 <div className={classes.toolbar}/>
                 <RouterSwitch>
                     {navigationRoutes.map(({path, component}) => (
-                        <Route path={path}>
+                        <Route path={path} key={`route_${path}`}>
                             {React.createElement(component, {})}
                         </Route>
                     ))}
