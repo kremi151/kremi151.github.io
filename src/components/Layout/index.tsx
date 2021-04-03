@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import {
     AppBar,
@@ -19,6 +19,7 @@ import {ChevronLeft, ChevronRight, Menu as MenuIcon,} from '@material-ui/icons';
 import {Route, Switch as RouterSwitch, Link} from "react-router-dom";
 import {navigationRoutes} from "../../navigation/routes";
 import {DrawerCategory, DrawerLogoProps, RouteEntry} from "../../navigation/types";
+import {useAppContext} from "../../context";
 
 const drawerWidth = 240;
 
@@ -114,7 +115,8 @@ function DrawerMenuItem(props: RouteEntry) {
 export default function Layout() {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const { appBarTitle } = useAppContext();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -146,7 +148,7 @@ export default function Layout() {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        kremi151
+                        {appBarTitle || 'kremi151'}
                     </Typography>
                 </Toolbar>
             </AppBar>

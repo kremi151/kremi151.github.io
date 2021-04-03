@@ -3,6 +3,7 @@ import logo from './logo.png';
 import {Typography} from "@material-ui/core";
 import './styles.css';
 import {DrawerLogoProps} from "../../navigation/types";
+import {useAppBarTitle} from "../../context";
 
 export function Logo(props: DrawerLogoProps) {
     return (
@@ -11,11 +12,9 @@ export function Logo(props: DrawerLogoProps) {
 }
 
 export default function PrintAdjusterPage() {
+    useAppBarTitle('Print adjuster');
     return (
         <div>
-            <Typography variant="h3" component="h1">
-                Print adjuster
-            </Typography>
             <Typography paragraph>
                 This page is currently under construction 🚧
             </Typography>
