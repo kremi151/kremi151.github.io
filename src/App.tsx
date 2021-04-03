@@ -4,6 +4,19 @@ import {
     HashRouter as Router,
 } from "react-router-dom";
 import {AppContextProvider, AppContextType} from "./context";
+import {createMuiTheme, ThemeProvider} from '@material-ui/core';
+import {green} from "@material-ui/core/colors";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: green[600],
+        },
+        secondary: {
+            main: green[400],
+        },
+    },
+});
 
 export default function App() {
     const [appBarTitle, setAppBarTitle] = useState<string | undefined>();
@@ -13,9 +26,11 @@ export default function App() {
     }), [appBarTitle, setAppBarTitle]);
     return (
         <AppContextProvider value={appContext}>
-            <Router>
-                <Layout/>
-            </Router>
+            <ThemeProvider theme={theme}>
+                <Router>
+                    <Layout/>
+                </Router>
+            </ThemeProvider>
         </AppContextProvider>
     );
 }
