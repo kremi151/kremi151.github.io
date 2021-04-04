@@ -19,8 +19,12 @@ function useAppContext(): AppContextType {
 function useAppBarTitle(title: string) {
     const { setAppBarTitle } = useContext(appContext);
     useEffect(() => {
+        document.title = `${title} | kremi151`;
         setAppBarTitle(title);
-        return () => setAppBarTitle(undefined);
+        return () => {
+            document.title = 'kremi151';
+            setAppBarTitle(undefined);
+        };
     }, [setAppBarTitle, title]);
 }
 
