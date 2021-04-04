@@ -1,10 +1,34 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import logo from './logo.png';
-import {Typography} from "@material-ui/core";
 import './styles.css';
 import {DrawerLogoProps} from "../../navigation/types";
 import {useAppBarTitle} from "../../context";
-import PlayStoreBadge from "../../components/PlayStoreBadge";
+import {Switch, Route, useRouteMatch, useHistory, useLocation} from "react-router-dom";
+import StartPage from "./subpages/Start";
+import {BottomNavigation, BottomNavigationAction, makeStyles} from "@material-ui/core";
+import {Info as InfoIcon, Refresh as RefreshIcon} from "@material-ui/icons";
+import ChangelogPage from "./subpages/Changelog";
+
+const pathChangelog = '/changelog';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    bottomNavigationContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        margin: theme.spacing(2),
+        width: '100%',
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+}));
 
 export function Logo(props: DrawerLogoProps) {
     return (
@@ -14,12 +38,29 @@ export function Logo(props: DrawerLogoProps) {
 
 export default function PrintAdjusterPage() {
     useAppBarTitle('Print adjuster');
+    const styles = useStyles();
+    const {path} = useRouteMatch();
+    const { pathname } = useLocation();
+    const history = useHistory();
+    const onRouteChange = useCallback((event, newValue: string) => {
+        history.push(newValue);
+    }, [history]);
     return (
-        <div>
-            <Typography paragraph>
-                This page is currently under construction 🚧
-            </Typography>
-            <PlayStoreBadge appPackageName="lu.kremi151.printresizer" />
+        <div className={styles.root}>
+            <Switch>
+                <Route exact path={path}>
+                    <StartPage />
+                </Route>
+                <Route path={`${path}${pathChangelog}`}>
+                    <ChangelogPage />
+                </Route>
+            </Switch>
+            <div className={styles.bottomNavigationContainer}>
+                <BottomNavigation showLabels onChange={onRouteChange} value={pathname}>
+                    <BottomNavigationAction label="About" value={path} icon={<InfoIcon />} />
+                    <BottomNavigationAction label="Changelog" value={`${path}${pathChangelog}`} icon={<RefreshIcon />} />
+                </BottomNavigation>
+            </div>
         </div>
     );
 }
