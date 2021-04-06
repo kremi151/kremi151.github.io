@@ -6,10 +6,16 @@ import {useAppBarTitle} from "../../context";
 import {Switch, Route, useRouteMatch, useHistory, useLocation} from "react-router-dom";
 import StartPage from "./subpages/Start";
 import {BottomNavigation, BottomNavigationAction, makeStyles} from "@material-ui/core";
-import {Info as InfoIcon, Refresh as RefreshIcon} from "@material-ui/icons";
+import {
+    Info as InfoIcon,
+    Refresh as RefreshIcon,
+    People as PeopleIcon,
+} from "@material-ui/icons";
 import ChangelogPage from "./subpages/Changelog";
+import ContributePage from "./subpages/Contribute";
 
 const pathChangelog = '/changelog';
+const pathContribute = '/contribute';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,11 +60,15 @@ export default function PrintAdjusterPage() {
                 <Route path={`${path}${pathChangelog}`}>
                     <ChangelogPage />
                 </Route>
+                <Route path={`${path}${pathContribute}`}>
+                    <ContributePage />
+                </Route>
             </Switch>
             <div className={styles.bottomNavigationContainer}>
                 <BottomNavigation showLabels onChange={onRouteChange} value={pathname}>
                     <BottomNavigationAction label="About" value={path} icon={<InfoIcon />} />
                     <BottomNavigationAction label="Changelog" value={`${path}${pathChangelog}`} icon={<RefreshIcon />} />
+                    <BottomNavigationAction label="Contribute" value={`${path}${pathContribute}`} icon={<PeopleIcon />} />
                 </BottomNavigation>
             </div>
         </div>
