@@ -20,10 +20,18 @@ const theme = createMuiTheme({
 
 export default function App() {
     const [appBarTitle, setAppBarTitle] = useState<string | undefined>();
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const appContext = useMemo<AppContextType>(() => ({
         setAppBarTitle,
+        setDrawerOpen,
         appBarTitle,
-    }), [appBarTitle, setAppBarTitle]);
+        drawerOpen,
+    }), [
+        appBarTitle,
+        drawerOpen,
+        setAppBarTitle,
+        setDrawerOpen,
+    ]);
     return (
         <AppContextProvider value={appContext}>
             <ThemeProvider theme={theme}>

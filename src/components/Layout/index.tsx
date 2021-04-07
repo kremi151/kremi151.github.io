@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import clsx from 'clsx';
 import {
     AppBar,
@@ -122,16 +122,19 @@ function DrawerMenuItem(props: RouteEntry) {
 export default function Layout() {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
-    const { appBarTitle } = useAppContext();
+    const {
+        appBarTitle,
+        setDrawerOpen,
+        drawerOpen,
+    } = useAppContext();
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const handleDrawerOpen = useCallback(() => {
+        setDrawerOpen(true);
+    }, [setDrawerOpen]);
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const handleDrawerClose = useCallback(() => {
+        setDrawerOpen(false);
+    }, [setDrawerOpen]);
 
     return (
         <div className={classes.root}>
@@ -139,7 +142,7 @@ export default function Layout() {
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
+                    [classes.appBarShift]: drawerOpen,
                 })}
             >
                 <Toolbar>
@@ -149,7 +152,7 @@ export default function Layout() {
                         onClick={handleDrawerOpen}
                         edge="start"
                         className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
+                            [classes.hide]: drawerOpen,
                         })}
                     >
                         <MenuIcon/>
@@ -162,13 +165,13 @@ export default function Layout() {
             <Drawer
                 variant="permanent"
                 className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
+                    [classes.drawerOpen]: drawerOpen,
+                    [classes.drawerClose]: !drawerOpen,
                 })}
                 classes={{
                     paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
+                        [classes.drawerOpen]: drawerOpen,
+                        [classes.drawerClose]: !drawerOpen,
                     }),
                 }}
             >
@@ -190,7 +193,7 @@ export default function Layout() {
                     ))}
                 </List>
             </Drawer>
-            <main className={classes.content}>
+            <main className={classes.content} onClick={handleDrawerClose}>
                 <div className={classes.toolbar}/>
                 <RouterSwitch>
                     {navigationRoutes.map(({path, component}) => (

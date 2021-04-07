@@ -1,14 +1,15 @@
 import React, {useCallback} from 'react';
 import logo from './logo.png';
+import clsx from 'clsx';
 import './styles.css';
 import {DrawerLogoProps} from "../../navigation/types";
-import {useAppBarTitle} from "../../context";
+import {useAppBarTitle, useAppContext} from "../../context";
 import {Switch, Route, useRouteMatch, useHistory, useLocation} from "react-router-dom";
 import StartPage from "./subpages/Start";
 import {BottomNavigation, BottomNavigationAction, makeStyles} from "@material-ui/core";
 import {
     Info as InfoIcon,
-    Refresh as RefreshIcon,
+    Restore as RestoreIcon,
     People as PeopleIcon,
 } from "@material-ui/icons";
 import ChangelogPage from "./subpages/Changelog";
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
+        paddingBottom: 56 + theme.spacing(2), // Height of BottomNavigation + some more padding
     },
     bottomNavigationContainer: {
         display: 'flex',
@@ -33,7 +35,11 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         right: 0,
     },
-
+    bottomNavigationContainerCloseable: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'none',
+        },
+    },
 }));
 
 export function Logo(props: DrawerLogoProps) {
@@ -45,12 +51,15 @@ export function Logo(props: DrawerLogoProps) {
 export default function PrintAdjusterPage() {
     useAppBarTitle('Print adjuster');
     const styles = useStyles();
+    const { drawerOpen } = useAppContext();
     const {path} = useRouteMatch();
     const { pathname } = useLocation();
     const history = useHistory();
+
     const onRouteChange = useCallback((event, newValue: string) => {
         history.push(newValue);
     }, [history]);
+
     return (
         <div className={styles.root}>
             <Switch>
@@ -64,10 +73,13 @@ export default function PrintAdjusterPage() {
                     <ContributePage />
                 </Route>
             </Switch>
-            <div className={styles.bottomNavigationContainer}>
+            <div className={drawerOpen ? clsx(
+                styles.bottomNavigationContainer,
+                styles.bottomNavigationContainerCloseable,
+            ) : styles.bottomNavigationContainer}>
                 <BottomNavigation showLabels onChange={onRouteChange} value={pathname}>
                     <BottomNavigationAction label="About" value={path} icon={<InfoIcon />} />
-                    <BottomNavigationAction label="Changelog" value={`${path}${pathChangelog}`} icon={<RefreshIcon />} />
+                    <BottomNavigationAction label="Changelog" value={`${path}${pathChangelog}`} icon={<RestoreIcon />} />
                     <BottomNavigationAction label="Contribute" value={`${path}${pathContribute}`} icon={<PeopleIcon />} />
                 </BottomNavigation>
             </div>
