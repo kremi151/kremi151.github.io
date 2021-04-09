@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import ChangelogsJson from './changelogs/index.json';
 import {
     Card,
     CardContent,
-    CardHeader,
+    CardHeader, Collapse, IconButton,
     makeStyles,
 } from "@material-ui/core";
+import {
+    ArrowDropDown as ArrowDropDownIcon,
+    ArrowDropUp as ArrowDropUpIcon,
+} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,26 +20,56 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface VersionProps {
+    version: string;
+    build: number;
+    date: string;
+    changes: string[];
+
+}
+
+function ChangelogCard(props: VersionProps) {
+    const styles = useStyles();
+    const [expanded, setExpanded] = useState(false);
+    const toggleExpanded = useCallback(() => setExpanded(!expanded), [
+        setExpanded, expanded,
+    ]);
+    return (
+        <Card key={props.build} className={styles.card}>
+            <CardHeader
+                title={`Version ${props.version}`}
+                subheader={`Build ${props.build}, released on ${props.date}`}
+                action={
+                    <IconButton onClick={toggleExpanded}>
+                        {expanded ? (
+                            <ArrowDropUpIcon />
+                        ) : (
+                            <ArrowDropDownIcon />
+                        )}
+                    </IconButton>
+                }
+            />
+            <Collapse in={expanded}>
+                <CardContent>
+                    <ul>
+                        {props.changes.map((change, index) => (
+                            <li key={`change_${props.build}_${index}`}>
+                                {change}
+                            </li>
+                        ))}
+                    </ul>
+                </CardContent>
+            </Collapse>
+        </Card>
+    );
+}
+
 export default function ChangelogPage() {
     const styles = useStyles();
     return (
         <div className={styles.root}>
             {ChangelogsJson.versions.map(version => (
-                <Card key={version.build} className={styles.card}>
-                    <CardHeader
-                        title={`Version ${version.version}`}
-                        subheader={`Build ${version.build}, released on ${version.date}`}
-                    />
-                    <CardContent>
-                        <ul>
-                            {version.changes.map((change, index) => (
-                                <li key={`change_${version.build}_${index}`}>
-                                    {change}
-                                </li>
-                            ))}
-                        </ul>
-                    </CardContent>
-                </Card>
+                <ChangelogCard {...version} />
             ))}
         </div>
     );
