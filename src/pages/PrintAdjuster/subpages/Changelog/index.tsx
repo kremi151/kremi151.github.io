@@ -69,7 +69,7 @@ export default function ChangelogPage() {
     return (
         <div className={styles.root}>
             {ChangelogsJson.versions.map(version => (
-                <ChangelogCard {...version} />
+                <ChangelogCard {...version} key={`changelog_${version.build}`} />
             ))}
         </div>
     );

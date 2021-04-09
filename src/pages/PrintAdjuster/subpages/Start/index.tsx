@@ -80,7 +80,7 @@ export default function StartPage() {
     return (
         <div>
             <Carousel navButtonsProps={navButtonProps} activeIndicatorIconButtonProps={activeIndicatorIconButtonProps}>
-                {screenshots.map((p) => <Screenshot {...p} />)}
+                {screenshots.map((p, index) => <Screenshot {...p} key={`scr_${index}`} />)}
             </Carousel>
 
             <Typography variant="h5">
