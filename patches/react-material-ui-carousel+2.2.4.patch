@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-material-ui-carousel/src/@types/react-material-ui-carousel/index.d.ts b/node_modules/react-material-ui-carousel/src/@types/react-material-ui-carousel/index.d.ts
+index 1b83594..af2f21c 100644
+--- a/node_modules/react-material-ui-carousel/src/@types/react-material-ui-carousel/index.d.ts
++++ b/node_modules/react-material-ui-carousel/src/@types/react-material-ui-carousel/index.d.ts
+@@ -2,8 +2,8 @@
+ import React, { ReactNode } from 'react';
+ 
+ export interface CarouselStyleProps {
+-    className: string,
+-    style: React.CSSProperties
++    className?: string,
++    style?: React.CSSProperties
+ }
+ 
+ export interface CarouselProps {
