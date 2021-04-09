@@ -6,7 +6,7 @@ import {DrawerLogoProps} from "../../navigation/types";
 import {useAppBarTitle, useAppContext} from "../../context";
 import {Switch, Route, useRouteMatch, useHistory, useLocation} from "react-router-dom";
 import StartPage from "./subpages/Start";
-import {BottomNavigation, BottomNavigationAction, makeStyles} from "@material-ui/core";
+import {BottomNavigation, BottomNavigationAction, Container, makeStyles} from "@material-ui/core";
 import {
     Info as InfoIcon,
     Restore as RestoreIcon,
@@ -62,17 +62,19 @@ export default function PrintAdjusterPage() {
 
     return (
         <div className={styles.root}>
-            <Switch>
-                <Route exact path={path}>
-                    <StartPage />
-                </Route>
-                <Route path={`${path}${pathChangelog}`}>
-                    <ChangelogPage />
-                </Route>
-                <Route path={`${path}${pathContribute}`}>
-                    <ContributePage />
-                </Route>
-            </Switch>
+            <Container>
+                <Switch>
+                    <Route exact path={path}>
+                        <StartPage />
+                    </Route>
+                    <Route path={`${path}${pathChangelog}`}>
+                        <ChangelogPage />
+                    </Route>
+                    <Route path={`${path}${pathContribute}`}>
+                        <ContributePage />
+                    </Route>
+                </Switch>
+            </Container>
             <div className={drawerOpen ? clsx(
                 styles.bottomNavigationContainer,
                 styles.bottomNavigationContainerCloseable,

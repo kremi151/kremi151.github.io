@@ -3,10 +3,10 @@
     {
       "version": "1.8.0",
       "build": 802,
-      "date": "06/04/2021",
+      "date": "08/04/2021",
       "changes": [
         "Support for multiple pages",
-        "Improved quality of PDFs",
+        "Improved quality of printed PDFs",
         "Show warning when trying to arrange and at least one element is locked",
         "Back press confirmation before leaving the app",
         "Recovery in case of an app crash",

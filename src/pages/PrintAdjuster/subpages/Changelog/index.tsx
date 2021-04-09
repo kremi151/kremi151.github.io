@@ -4,8 +4,7 @@ import {
     Card,
     CardContent,
     CardHeader,
-    GridList,
-    GridListTile, makeStyles,
+    makeStyles,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     card: {
-        margin: theme.spacing(2),
+        marginBottom: theme.spacing(2),
     },
 }));
 

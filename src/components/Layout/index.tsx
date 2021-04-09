@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9) + 1,
         },
+        [theme.breakpoints.down('xs')]: {
+            width: 0,
+        },
     },
     toolbar: {
         display: 'flex',
@@ -90,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
     },
+    sidenavIcon: {
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(1),
+        },
+    },
 }));
 
 const defaultLogoProps: DrawerLogoProps = {
@@ -98,6 +106,7 @@ const defaultLogoProps: DrawerLogoProps = {
 };
 
 function DrawerMenuItem(props: RouteEntry) {
+    const styles = useStyles();
     const {
         path,
         drawer,
@@ -111,7 +120,7 @@ function DrawerMenuItem(props: RouteEntry) {
     } = drawer;
     return (
         <ListItem button component={Link} to={path}>
-            <ListItemIcon>
+            <ListItemIcon className={styles.sidenavIcon}>
                 {React.createElement(logo, defaultLogoProps)}
             </ListItemIcon>
             <ListItemText primary={title}/>
