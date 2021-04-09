@@ -2,13 +2,17 @@ import React, {useContext, useEffect} from 'react';
 
 interface AppContextType {
     setAppBarTitle(title: string | undefined): void;
+    setDrawerOpen(open: boolean): void;
 
     appBarTitle: string | undefined;
+    drawerOpen: boolean;
 }
 
 const appContext = React.createContext<AppContextType>({
     setAppBarTitle: () => {},
+    setDrawerOpen: () => {},
     appBarTitle: undefined,
+    drawerOpen: false,
 });
 const { Provider, Consumer } = appContext;
 
