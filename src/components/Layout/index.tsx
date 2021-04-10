@@ -13,7 +13,8 @@ import {
     makeStyles,
     Toolbar,
     Typography,
-    useTheme
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import {ChevronLeft, ChevronRight, Menu as MenuIcon,} from '@material-ui/icons';
 import {Route, Switch as RouterSwitch, Link} from "react-router-dom";
@@ -145,13 +146,15 @@ export default function Layout() {
         setDrawerOpen(false);
     }, [setDrawerOpen]);
 
+    const isSmall = useMediaQuery(theme.breakpoints.down('xs'));
+
     return (
         <div className={classes.root}>
             <CssBaseline/>
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: drawerOpen,
+                    [classes.appBarShift]: drawerOpen && !isSmall,
                 })}
             >
                 <Toolbar>
@@ -161,7 +164,7 @@ export default function Layout() {
                         onClick={handleDrawerOpen}
                         edge="start"
                         className={clsx(classes.menuButton, {
-                            [classes.hide]: drawerOpen,
+                            [classes.hide]: drawerOpen && !isSmall,
                         })}
                     >
                         <MenuIcon/>
@@ -172,7 +175,8 @@ export default function Layout() {
                 </Toolbar>
             </AppBar>
             <Drawer
-                variant="permanent"
+                anchor="left"
+                variant={isSmall ? 'temporary' : 'permanent'}
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: drawerOpen,
                     [classes.drawerClose]: !drawerOpen,
@@ -183,13 +187,19 @@ export default function Layout() {
                         [classes.drawerClose]: !drawerOpen,
                     }),
                 }}
+                open={drawerOpen}
+                onClose={handleDrawerClose}
             >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRight/> : <ChevronLeft/>}
-                    </IconButton>
-                </div>
-                <Divider/>
+                {isSmall ? null : (
+                    <>
+                        <div className={classes.toolbar}>
+                            <IconButton onClick={handleDrawerClose}>
+                                {theme.direction === 'rtl' ? <ChevronRight/> : <ChevronLeft/>}
+                            </IconButton>
+                        </div>
+                        <Divider/>
+                    </>
+                )}
                 <List>
                     {navigationRoutes.filter(({drawer}) => drawer?.category === DrawerCategory.DEFAULT).map((entry, index) => (
                         <DrawerMenuItem {...entry} key={`default_entry_${index}`} />
