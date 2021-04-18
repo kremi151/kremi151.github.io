@@ -1,6 +1,15 @@
 {
   "versions": [
     {
+      "version": "1.8.1",
+      "build": 803,
+      "date": "17/04/2021",
+      "changes": [
+        "Stabilization of page preview rendering",
+        "Improved cache handling"
+      ]
+    },
+    {
       "version": "1.8.0",
       "build": 802,
       "date": "08/04/2021",
