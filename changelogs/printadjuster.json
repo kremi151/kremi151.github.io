@@ -1,6 +1,14 @@
 {
   "versions": [
     {
+      "version": "1.8.2",
+      "build": 804,
+      "date": "22/04/2021",
+      "changes": [
+        "Fix for reduced quality of pictures which are printed or exported to PDFs or images"
+      ]
+    },
+    {
       "version": "1.8.1",
       "build": 803,
       "date": "17/04/2021",
