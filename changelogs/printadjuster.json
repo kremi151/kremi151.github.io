@@ -1,6 +1,14 @@
 {
   "versions": [
     {
+      "version": "1.8.3",
+      "build": 805,
+      "date": "25/04/2021",
+      "changes": [
+        "Fix for excessive state recoveries after relaunching app"
+      ]
+    },
+    {
       "version": "1.8.2",
       "build": 804,
       "date": "22/04/2021",
