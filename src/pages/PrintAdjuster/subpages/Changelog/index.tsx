@@ -43,17 +43,27 @@ enum LoadState {
     ERROR,
 }
 
-function ChangelogCard(props: VersionProps) {
+interface ChangelogCardProps {
+    version: VersionProps;
+    expanded: boolean;
+    onToggleExpanded(version: VersionProps): void;
+}
+
+function ChangelogCard(props: ChangelogCardProps) {
     const styles = useStyles();
-    const [expanded, setExpanded] = useState(false);
-    const toggleExpanded = useCallback(() => setExpanded(!expanded), [
-        setExpanded, expanded,
+    const {
+        expanded,
+        onToggleExpanded,
+        version,
+    } = props;
+    const toggleExpanded = useCallback(() => onToggleExpanded(version), [
+        onToggleExpanded, version,
     ]);
     return (
-        <Card key={props.build} className={styles.card}>
+        <Card key={version.build} className={styles.card}>
             <CardHeader
-                title={`Version ${props.version}`}
-                subheader={`Build ${props.build}, released on ${props.date}`}
+                title={`Version ${version.version}`}
+                subheader={`Build ${version.build}, released on ${version.date}`}
                 action={
                     <IconButton onClick={toggleExpanded}>
                         {expanded ? (
@@ -67,8 +77,8 @@ function ChangelogCard(props: VersionProps) {
             <Collapse in={expanded}>
                 <CardContent>
                     <ul>
-                        {props.changes.map((change, index) => (
-                            <li key={`change_${props.build}_${index}`}>
+                        {version.changes.map((change, index) => (
+                            <li key={`change_${version.build}_${index}`}>
                                 {change}
                             </li>
                         ))}
@@ -83,13 +93,28 @@ export default function ChangelogPage() {
     const styles = useStyles();
     const [changelogState, setChangelogState] = useState(LoadState.LOADING);
     const [changelog, setChangelog] = useState<Changelog>({ versions: [] });
+    const [expanded, setExpanded] = useState<{ [build: number]: boolean | undefined }>({});
+
+    const onToggleExpanded = useCallback((version: VersionProps) => {
+        setExpanded(e => ({
+            ...e,
+            [version.build]: !e[version.build],
+        }));
+    }, [setExpanded]);
 
     useEffect(() => {
         fetch('https://raw.githubusercontent.com/kremi151/kremi151.github.io/master/changelogs/printadjuster.json')
             .then(response => response.json())
-            .then(response => {
+            .then((response: Changelog) => {
                 setChangelog(response);
                 setChangelogState(LoadState.LOADED);
+                if (response.versions?.length) {
+                    const newestBuild = Math.max(...response.versions.map(v => v.build));
+                    setExpanded(e => ({
+                        ...e,
+                        [newestBuild]: true,
+                    }));
+                }
             })
             .catch(error => {
                 console.error('Could not load changelog', error);
@@ -116,7 +141,12 @@ export default function ChangelogPage() {
             return (
                 <div className={styles.root}>
                     {changelog.versions.map(version => (
-                        <ChangelogCard {...version} key={`changelog_${version.build}`} />
+                        <ChangelogCard
+                            key={`changelog_${version.build}`}
+                            version={version}
+                            expanded={!!expanded[version.build]}
+                            onToggleExpanded={onToggleExpanded}
+                        />
                     ))}
                 </div>
             );
