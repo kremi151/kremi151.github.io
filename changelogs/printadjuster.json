@@ -47,8 +47,10 @@
         "Show warning when trying to arrange and at least one element is locked",
         "Back press confirmation before leaving the app",
         "Recovery in case of an app crash",
-        "Various bug fixes and improvements",
-        "Deprecation warning for KitKat devices"
+        "Various bug fixes and improvements"
+      ],
+      "warnings": [
+        "This version deprecates support for Android 4.4 KitKat.\nUsers of this version of Android may still receive bug fix updates, but no more feature updates."
       ]
     },
     {

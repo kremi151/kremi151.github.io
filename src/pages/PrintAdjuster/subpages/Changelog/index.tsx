@@ -24,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    changeList: {
+        marginTop: 0,
+    },
+    warningContent: {
+        whiteSpace: 'pre-wrap',
+    },
 }));
 
 interface VersionProps {
@@ -31,6 +37,7 @@ interface VersionProps {
     build: number;
     date: string;
     changes: string[];
+    warnings?: string[];
 }
 
 interface Changelog {
@@ -76,13 +83,18 @@ function ChangelogCard(props: ChangelogCardProps) {
             />
             <Collapse in={expanded}>
                 <CardContent>
-                    <ul>
+                    <ul className={styles.changeList}>
                         {version.changes.map((change, index) => (
                             <li key={`change_${version.build}_${index}`}>
                                 {change}
                             </li>
                         ))}
                     </ul>
+                    {version.warnings?.map((warning, index) => (
+                        <Alert severity="warning" key={`warn_${version.build}_${index}`}>
+                            <span className={styles.warningContent}>{warning}</span>
+                        </Alert>
+                    ))}
                 </CardContent>
             </Collapse>
         </Card>
