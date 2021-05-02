@@ -1,6 +1,18 @@
 {
   "versions": [
     {
+      "version": "1.8.4",
+      "build": 810,
+      "date": "02/05/2021",
+      "changes": [
+        "Add action to clear workspace",
+        "Fix typo in french app name"
+      ],
+      "warnings": [
+        "This version deprecates support for Android 5.0 Lollipop and disables support for multiple pages on that version due to incompatibility issues.\nThis can be re-enabled manually in the settings at the users own risk."
+      ]
+    },
+    {
       "version": "1.8.3",
       "build": 805,
       "date": "25/04/2021",
