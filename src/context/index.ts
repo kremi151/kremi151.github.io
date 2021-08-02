@@ -1,18 +1,23 @@
 import React, {useContext, useEffect} from 'react';
 
+interface SidebarEntry {
+    title: string;
+    route: string;
+}
+
 interface AppContextType {
     setAppBarTitle(title: string | undefined): void;
-    setDrawerOpen(open: boolean): void;
+    setSidebarEntries(entries: SidebarEntry[] | undefined): void;
 
     appBarTitle: string | undefined;
-    drawerOpen: boolean;
+    sidebarEntries: SidebarEntry[] | undefined;
 }
 
 const appContext = React.createContext<AppContextType>({
     setAppBarTitle: () => {},
-    setDrawerOpen: () => {},
+    setSidebarEntries: () => {},
     appBarTitle: undefined,
-    drawerOpen: false,
+    sidebarEntries: undefined,
 });
 const { Provider, Consumer } = appContext;
 
@@ -32,10 +37,24 @@ function useAppBarTitle(title: string) {
     }, [setAppBarTitle, title]);
 }
 
+function useSidebarEntries(entries: SidebarEntry[]) {
+    const { setSidebarEntries } = useContext(appContext);
+    useEffect(() => {
+        setSidebarEntries(entries);
+        return () => {
+            setSidebarEntries(undefined);
+        };
+    }, [setSidebarEntries, entries]);
+}
+
 export {
     Provider as AppContextProvider,
     Consumer as AppContextConsumer,
     useAppContext,
     useAppBarTitle,
+    useSidebarEntries,
 };
-export type { AppContextType };
+export type {
+    AppContextType,
+    SidebarEntry,
+};

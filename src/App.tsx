@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import {
     HashRouter as Router,
 } from "react-router-dom";
-import {AppContextProvider, AppContextType} from "./context";
+import {AppContextProvider, AppContextType, SidebarEntry} from "./context";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core';
 import {green} from "@material-ui/core/colors";
 
@@ -20,17 +20,17 @@ const theme = createMuiTheme({
 
 export default function App() {
     const [appBarTitle, setAppBarTitle] = useState<string | undefined>();
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [sidebarEntries, setSidebarEntries] = useState<SidebarEntry[] | undefined>();
     const appContext = useMemo<AppContextType>(() => ({
         setAppBarTitle,
-        setDrawerOpen,
+        setSidebarEntries,
         appBarTitle,
-        drawerOpen,
+        sidebarEntries,
     }), [
         appBarTitle,
-        drawerOpen,
+        sidebarEntries,
         setAppBarTitle,
-        setDrawerOpen,
+        setSidebarEntries,
     ]);
     return (
         <AppContextProvider value={appContext}>
