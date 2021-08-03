@@ -14,6 +14,7 @@ export interface DrawerEntry {
     readonly category: DrawerCategory;
     readonly title: string;
     readonly logo: React.FC<DrawerLogoProps>;
+    readonly priority?: number;
 }
 
 export interface RouteEntry {

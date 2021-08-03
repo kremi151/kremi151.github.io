@@ -96,6 +96,7 @@ export default function Layout() {
     const sections = useMemo<HeaderSection[]>(() => navigationRoutes.map((r) => ({
         title: r.drawer?.title || 'Missing title',
         route: r.path,
+        priority: r.drawer?.priority,
     })), []);
 
     const routes = useMemo(() => navigationRoutes.map(({path, component}) => (

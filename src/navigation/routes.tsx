@@ -21,6 +21,7 @@ export const navigationRoutes: RouteEntry[] = [
             category: DrawerCategory.DEFAULT,
             title: 'Home',
             logo: () => <Home/>,
-        }
+            priority: 999, // Should be the very first item that's rendered, but the last one in this list
+        },
     },
 ];

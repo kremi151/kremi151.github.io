@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export interface HeaderSection {
     title: string;
     route: string;
+    priority?: number;
 }
 
 interface Props {
@@ -66,13 +67,18 @@ export function Header({ title, sections: inSections }: Props) {
         }
     }, [small, closeDrawer]);
 
-    const sections = useMemo(() => inSections.map(s => ({
-        title: s.title,
-        onClick: () => {
-            setDrawerOpen(false);
-            history.push(s.route);
-        },
-    })), [inSections, history, setDrawerOpen]);
+    const sections = useMemo(() => {
+        const result = inSections.map(s => ({
+            title: s.title,
+            priority: s.priority || 0,
+            onClick: () => {
+                setDrawerOpen(false);
+                history.push(s.route);
+            },
+        }));
+        result.sort((a, b) => b.priority - a.priority);
+        return result;
+    }, [inSections, history, setDrawerOpen]);
 
     return (
         <div className={classes.root}>
