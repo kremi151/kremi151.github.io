@@ -17,22 +17,6 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'column',
-        paddingBottom: 56 + theme.spacing(2), // Height of BottomNavigation + some more padding
-    },
-    bottomNavigationContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        margin: theme.spacing(2),
-        width: '100%',
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-    bottomNavigationContainerCloseable: {
-        [theme.breakpoints.down('xs')]: {
-            display: 'none',
-        },
     },
 }));
 
@@ -66,19 +50,17 @@ export default function PrintAdjusterPage() {
 
     return (
         <div className={styles.root}>
-            <Container>
-                <Switch>
-                    <Route exact path={path}>
-                        <StartPage />
-                    </Route>
-                    <Route path={`${path}${pathChangelog}`}>
-                        <ChangelogPage />
-                    </Route>
-                    <Route path={`${path}${pathContribute}`}>
-                        <ContributePage />
-                    </Route>
-                </Switch>
-            </Container>
+            <Switch>
+                <Route exact path={path}>
+                    <StartPage />
+                </Route>
+                <Route path={`${path}${pathChangelog}`}>
+                    <ChangelogPage />
+                </Route>
+                <Route path={`${path}${pathContribute}`}>
+                    <ContributePage />
+                </Route>
+            </Switch>
         </div>
     );
 }

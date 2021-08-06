@@ -1,6 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import GithubIcon from '@material-ui/icons/GitHub';
 import MenuIcon from '@material-ui/icons/Menu';
+import MoonIcon from '@material-ui/icons/Brightness4';
+import SunIcon from '@material-ui/icons/BrightnessHigh';
 import Link from "@material-ui/core/Link";
 import {useHistory} from "react-router-dom";
 import {IconButton} from "@material-ui/core";
@@ -13,13 +15,14 @@ import Drawer from "@material-ui/core/Drawer/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import {useAppContext} from "../../context";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        borderBottom: '1px solid #dedede',
-    },
     toolbar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    toolbarDrawerContainer: {
+        width: 96,
     },
     toolbarTitle: {
         flex: 1,
@@ -50,6 +53,8 @@ export function Header({ title, sections: inSections }: Props) {
     const { breakpoints } = useTheme();
     const classes = useStyles();
 
+    const { darkMode, setDarkMode } = useAppContext();
+
     const history = useHistory();
 
     const small = useMediaQuery(breakpoints.down('xs'));
@@ -67,6 +72,11 @@ export function Header({ title, sections: inSections }: Props) {
         }
     }, [small, closeDrawer]);
 
+    const DarkModeIcon = darkMode ? SunIcon : MoonIcon;
+    const toggleDarkMode = useCallback(() => {
+        setDarkMode(!darkMode);
+    }, [darkMode, setDarkMode]);
+
     const sections = useMemo(() => {
         const result = inSections.map(s => ({
             title: s.title,
@@ -81,11 +91,17 @@ export function Header({ title, sections: inSections }: Props) {
     }, [inSections, history, setDrawerOpen]);
 
     return (
-        <div className={classes.root}>
-            <Toolbar>
-                {small && (
-                    <IconButton onClick={openDrawer}>
-                        <MenuIcon />
+        <div>
+            <Toolbar className={classes.toolbar}>
+                {small ? (
+                    <div className={classes.toolbarDrawerContainer}>
+                        <IconButton onClick={openDrawer}>
+                            <MenuIcon />
+                        </IconButton>
+                    </div>
+                ) : (
+                    <IconButton onClick={toggleDarkMode}>
+                        <DarkModeIcon />
                     </IconButton>
                 )}
                 <Typography
@@ -98,6 +114,11 @@ export function Header({ title, sections: inSections }: Props) {
                 >
                     {title}
                 </Typography>
+                {small && (
+                    <IconButton onClick={toggleDarkMode}>
+                        <DarkModeIcon />
+                    </IconButton>
+                )}
                 <IconButton href="https://github.com/kremi151">
                     <GithubIcon />
                 </IconButton>

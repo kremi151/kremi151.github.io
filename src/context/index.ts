@@ -6,16 +6,20 @@ interface SidebarEntry {
 }
 
 interface AppContextType {
+    setDarkMode(darkMode: boolean): void;
     setAppBarTitle(title: string | undefined): void;
     setSidebarEntries(entries: SidebarEntry[] | undefined): void;
 
+    darkMode: boolean;
     appBarTitle: string | undefined;
     sidebarEntries: SidebarEntry[] | undefined;
 }
 
 const appContext = React.createContext<AppContextType>({
+    setDarkMode: () => {},
     setAppBarTitle: () => {},
     setSidebarEntries: () => {},
+    darkMode: false,
     appBarTitle: undefined,
     sidebarEntries: undefined,
 });
