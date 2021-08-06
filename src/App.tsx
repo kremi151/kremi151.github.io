@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import Layout from "./components/Layout";
 import {
     HashRouter as Router,
@@ -13,7 +13,13 @@ export default function App() {
     const [sidebarEntries, setSidebarEntries] = useState<SidebarEntry[] | undefined>();
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const [darkMode, setDarkMode] = useState(prefersDarkMode);
+    const [darkMode, setDarkModeState] = useState(() => prefersDarkMode
+        || window.localStorage.getItem('theme') === 'dark');
+
+    const setDarkMode = useCallback((darkMode: boolean) => {
+        window.localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+        setDarkModeState(darkMode);
+    }, [setDarkModeState]);
 
     const theme = useMemo(() => createMuiTheme({
         palette: {
