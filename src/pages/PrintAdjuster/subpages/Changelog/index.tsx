@@ -1,22 +1,30 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-    Card,
-    CardContent,
-    CardHeader, CircularProgress, Collapse, IconButton,
+    CircularProgress,
     makeStyles,
 } from "@material-ui/core";
-import {
-    ArrowDropDown as ArrowDropDownIcon,
-    ArrowDropUp as ArrowDropUpIcon,
-} from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Alert from "@material-ui/lab/Alert";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import Typography from "@material-ui/core/Typography";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    card: {
-        marginBottom: theme.spacing(2),
+    heading: {
+        fontSize: theme.typography.pxToRem(15),
+        flexBasis: '33.33%',
+        flexShrink: 0,
+    },
+    secondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
+    },
+    details: {
+        flexDirection: 'column',
     },
     loadingRoot: {
         flexGrow: 1,
@@ -25,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     changeList: {
-        marginTop: 0,
+        marginTop: theme.spacing(1),
     },
     warningContent: {
         whiteSpace: 'pre-wrap',
@@ -53,7 +61,7 @@ enum LoadState {
 interface ChangelogCardProps {
     version: VersionProps;
     expanded: boolean;
-    onToggleExpanded(version: VersionProps): void;
+    onToggleExpanded(version: VersionProps, expand: boolean): void;
 }
 
 function ChangelogCard(props: ChangelogCardProps) {
@@ -63,26 +71,20 @@ function ChangelogCard(props: ChangelogCardProps) {
         onToggleExpanded,
         version,
     } = props;
-    const toggleExpanded = useCallback(() => onToggleExpanded(version), [
+    const toggleExpanded = useCallback((e: React.ChangeEvent<{}>, expand: boolean) => onToggleExpanded(version, expand), [
         onToggleExpanded, version,
     ]);
     return (
-        <Card key={version.build} className={styles.card}>
-            <CardHeader
-                title={`Version ${version.version}`}
-                subheader={`Build ${version.build}, released on ${version.date}`}
-                action={
-                    <IconButton onClick={toggleExpanded}>
-                        {expanded ? (
-                            <ArrowDropUpIcon />
-                        ) : (
-                            <ArrowDropDownIcon />
-                        )}
-                    </IconButton>
-                }
-            />
-            <Collapse in={expanded}>
-                <CardContent>
+        <Accordion expanded={expanded} onChange={toggleExpanded}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={styles.heading}>{`Version ${version.version}`}</Typography>
+                {expanded || (
+                    <Typography className={styles.secondaryHeading}>{`Build ${version.build}, released on ${version.date}`}</Typography>
+                )}
+            </AccordionSummary>
+            <AccordionDetails className={styles.details}>
+                <Typography>
+                    <span>{`Build ${version.build}, released on ${version.date}`}</span>
                     <ul className={styles.changeList}>
                         {version.changes.map((change, index) => (
                             <li key={`change_${version.build}_${index}`}>
@@ -90,14 +92,14 @@ function ChangelogCard(props: ChangelogCardProps) {
                             </li>
                         ))}
                     </ul>
-                    {version.warnings?.map((warning, index) => (
-                        <Alert severity="warning" key={`warn_${version.build}_${index}`}>
-                            <span className={styles.warningContent}>{warning}</span>
-                        </Alert>
-                    ))}
-                </CardContent>
-            </Collapse>
-        </Card>
+                </Typography>
+                {version.warnings?.map((warning, index) => (
+                    <Alert severity="warning" key={`warn_${version.build}_${index}`}>
+                        <span className={styles.warningContent}>{warning}</span>
+                    </Alert>
+                ))}
+            </AccordionDetails>
+        </Accordion>
     );
 }
 
@@ -107,10 +109,10 @@ export default function ChangelogPage() {
     const [changelog, setChangelog] = useState<Changelog>({ versions: [] });
     const [expanded, setExpanded] = useState<{ [build: number]: boolean | undefined }>({});
 
-    const onToggleExpanded = useCallback((version: VersionProps) => {
+    const onToggleExpanded = useCallback((version: VersionProps, expand: boolean) => {
         setExpanded(e => ({
             ...e,
-            [version.build]: !e[version.build],
+            [version.build]: expand,
         }));
     }, [setExpanded]);
 
