@@ -65,7 +65,7 @@ function Screenshot(props: ScreenshotProps) {
     const { src, description } = props;
     return (
         <div className={styles.carouselItemRoot}>
-            <img src={src} width={250} alt={description}/>
+            <img src={src} height={500} width={250} alt={description}/>
             <Typography className={styles.carouselCaption}>
                 {description}
             </Typography>
