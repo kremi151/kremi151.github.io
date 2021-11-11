@@ -10,6 +10,7 @@ import {useAppContext} from "../../context";
 import {Header, HeaderSection} from "../Header";
 import Grid from "@material-ui/core/Grid";
 import {Sidebar} from "../Sidebar";
+import Alert from "@material-ui/lab/Alert";
 
 const drawerWidth = 240;
 
@@ -122,6 +123,11 @@ export default function Layout() {
                             md={sidebarEntries ? 10 : 12}
                             className={classes.mainContent}
                         >
+                            <Alert severity="warning">
+                                I'm currently taking a break from programming during my free time due to personal reasons.
+                                As such, all my projects are currently on hold, but not canceled.
+                                I apologize for any inconvenience this may cause.
+                            </Alert>
                             <RouterSwitch>
                                 {routes}
                             </RouterSwitch>
