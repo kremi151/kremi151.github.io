@@ -3,17 +3,14 @@ import Accordion from '@material-ui/core/Accordion';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { LoadState } from '../../../../util/types';
 import { FAQ, FAQDocument } from './types';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-
-interface FAQCardProps {
-    faq: FAQ;
-    defaultLang: string;
-}
+import Linkify from 'react-linkify';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,10 +28,19 @@ const useStyles = makeStyles((theme) => ({
     pageTitle: {
         marginBottom: theme.spacing(1),
     },
+    inlineLink: {
+        display: 'inline-block',
+    }
 }));
 
-function FAQCard({ faq, defaultLang }: FAQCardProps) {
-    const styles = useStyles();
+interface FAQCardProps {
+    faq: FAQ;
+    defaultLang: string;
+    linkMapper(href: string, text: string): React.ReactNode;
+    styles: ReturnType<typeof useStyles>;
+}
+
+function FAQCard({ faq, defaultLang, linkMapper, styles }: FAQCardProps) {
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -43,7 +49,11 @@ function FAQCard({ faq, defaultLang }: FAQCardProps) {
             <AccordionDetails className={styles.details}>
                 <Typography>
                     {faq.answer[defaultLang]?.map(line => (
-                        <p>{line}</p>
+                        <p>
+                            <Linkify componentDecorator={linkMapper}>
+                                {line}
+                            </Linkify>
+                        </p>
                     ))}
                 </Typography>
             </AccordionDetails>
@@ -58,6 +68,17 @@ export default function FAQPage() {
         defaultLang: 'en',
         faqs: [],
     });
+
+    const linkifyLinkMapper = useCallback((href: string, text: string) => (
+        <Link
+            display="block"
+            variant="body1"
+            href={href}
+            className={styles.inlineLink}
+        >
+            {text}
+        </Link>
+    ), [styles]);
 
     useEffect(() => {
         fetch('https://raw.githubusercontent.com/kremi151/kremi151.github.io/master/faqs/printadjuster.json')
@@ -96,6 +117,8 @@ export default function FAQPage() {
                             key={`faq_${index}`}
                             faq={faq}
                             defaultLang={faqs.defaultLang}
+                            linkMapper={linkifyLinkMapper}
+                            styles={styles}
                         />
                     ))}
                 </div>
