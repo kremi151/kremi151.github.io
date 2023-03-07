@@ -3,7 +3,7 @@
   "faqs": [
     {
       "question": {
-        "en": "When I print my document, it comes with borders around my content"
+        "en": "When I print my document, it comes with borders around my content. What can I do?"
       },
       "answer": {
         "en": [
@@ -13,6 +13,17 @@
           "There are two options what the issue could be:",
           "1. Configuration on printer level: Please check the settings on your printer device. Be aware that some printer models may be physically unable to print borderless.",
           "2. Configuration in the system printing app: After you push the printing button in Print adjuster, the next screen you will see is no longer in control of Print adjuster. This screen comes from the Android system and gives you further configuration options. Please verify that you don't have any borders configured here."
+        ]
+      }
+    },
+    {
+      "question": {
+        "en": "I have another question that is not listed here"
+      },
+      "answer": {
+        "en": [
+          "Feel free to write me an email to kremi151dev@gmail.com.",
+          "I cannot guarantee to reply to every single email, but I will try my best."
         ]
       }
     }
