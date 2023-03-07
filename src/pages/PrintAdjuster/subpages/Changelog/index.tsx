@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     warningContent: {
         whiteSpace: 'pre-wrap',
     },
+    pageTitle: {
+        marginBottom: theme.spacing(1),
+    },
 }));
 
 interface VersionProps {
@@ -149,6 +152,7 @@ export default function ChangelogPage() {
         case LoadState.LOADED:
             return (
                 <div className={styles.root}>
+                    <Typography variant="h4" className={styles.pageTitle}>Changelog</Typography>
                     {changelog.versions.map(version => (
                         <ChangelogCard
                             key={`changelog_${version.build}`}

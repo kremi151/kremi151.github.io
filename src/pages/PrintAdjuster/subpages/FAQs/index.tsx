@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     details: {
         flexDirection: 'column',
     },
+    pageTitle: {
+        marginBottom: theme.spacing(1),
+    },
 }));
 
 function FAQCard({ faq, defaultLang }: FAQCardProps) {
@@ -87,6 +90,7 @@ export default function FAQPage() {
         case LoadState.LOADED:
             return (
                 <div className={styles.root}>
+                    <Typography variant="h4" className={styles.pageTitle}>Frequently asked questions</Typography>
                     {faqs.faqs.map((faq, index) => (
                         <FAQCard
                             key={`faq_${index}`}
