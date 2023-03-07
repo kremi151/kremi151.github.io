@@ -7,9 +7,11 @@ import {Switch, Route, useRouteMatch} from "react-router-dom";
 import StartPage from "./subpages/Start";
 import {Container, makeStyles} from "@material-ui/core";
 import ChangelogPage from "./subpages/Changelog";
+import FAQPage from "./subpages/FAQs";
 import ContributePage from "./subpages/Contribute";
 
 const pathChangelog = '/changelog';
+const pathFAQs = '/faqs';
 const pathContribute = '/contribute';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +44,10 @@ export default function PrintAdjusterPage() {
             route: `${path}${pathChangelog}`,
         },
         {
+            title: 'FAQs',
+            route: `${path}${pathFAQs}`,
+        },
+        {
             title: 'Contribute',
             route: `${path}${pathContribute}`,
         },
@@ -56,6 +62,9 @@ export default function PrintAdjusterPage() {
                 </Route>
                 <Route path={`${path}${pathChangelog}`}>
                     <ChangelogPage />
+                </Route>
+                <Route path={`${path}${pathFAQs}`}>
+                    <FAQPage />
                 </Route>
                 <Route path={`${path}${pathContribute}`}>
                     <ContributePage />

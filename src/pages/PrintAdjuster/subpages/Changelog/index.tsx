@@ -3,6 +3,7 @@ import {
     CircularProgress,
     makeStyles,
 } from "@material-ui/core";
+import { LoadState } from '../../../../util/types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Alert from "@material-ui/lab/Alert";
 import Accordion from "@material-ui/core/Accordion";
@@ -50,12 +51,6 @@ interface VersionProps {
 
 interface Changelog {
     versions: VersionProps[];
-}
-
-enum LoadState {
-    LOADING,
-    LOADED,
-    ERROR,
 }
 
 interface ChangelogCardProps {
