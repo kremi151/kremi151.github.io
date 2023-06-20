@@ -9,10 +9,12 @@ import {Container, makeStyles} from "@material-ui/core";
 import ChangelogPage from "./subpages/Changelog";
 import FAQPage from "./subpages/FAQs";
 import ContributePage from "./subpages/Contribute";
+import { PrivacyPolicy } from "./subpages/PrivacyPolicy";
 
 const pathChangelog = '/changelog';
 const pathFAQs = '/faqs';
 const pathContribute = '/contribute';
+const pathPrivacyPolicy = '/privacy-policy';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,6 +53,10 @@ export default function PrintAdjusterPage() {
             title: 'Contribute',
             route: `${path}${pathContribute}`,
         },
+        {
+            title: 'Privacy policy',
+            route: `${path}${pathPrivacyPolicy}`,
+        },
     ], [path]);
     useSidebarEntries(sidebarEntries);
 
@@ -68,6 +74,9 @@ export default function PrintAdjusterPage() {
                 </Route>
                 <Route path={`${path}${pathContribute}`}>
                     <ContributePage />
+                </Route>
+                <Route path={`${path}${pathPrivacyPolicy}`}>
+                    <PrivacyPolicy />
                 </Route>
             </Switch>
         </div>
