@@ -9,7 +9,7 @@ import {Container, makeStyles} from "@material-ui/core";
 import ChangelogPage from "./subpages/Changelog";
 import FAQPage from "./subpages/FAQs";
 import ContributePage from "./subpages/Contribute";
-import { PrivacyPolicy } from "./subpages/PrivacyPolicy";
+import { PrivacyPolicy } from "../../components/PrivacyPolicy";
 
 const pathChangelog = '/changelog';
 const pathFAQs = '/faqs';
@@ -76,7 +76,7 @@ export default function PrintAdjusterPage() {
                     <ContributePage />
                 </Route>
                 <Route path={`${path}${pathPrivacyPolicy}`}>
-                    <PrivacyPolicy />
+                    <PrivacyPolicy appName="Print adjuster" />
                 </Route>
             </Switch>
         </div>
