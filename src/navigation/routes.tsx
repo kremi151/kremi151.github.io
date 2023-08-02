@@ -2,6 +2,7 @@ import React from 'react';
 import {DrawerCategory, RouteEntry} from "./types";
 import HomePage from "../pages/Home";
 import PrintAdjusterPage, {Logo as PrintAdjusterLogo} from "../pages/PrintAdjuster";
+import App3DTTTPage, {Logo as App3DTTTLogo} from "../pages/3DTTT";
 import { Home } from '@material-ui/icons';
 
 export const navigationRoutes: RouteEntry[] = [
@@ -12,6 +13,15 @@ export const navigationRoutes: RouteEntry[] = [
             category: DrawerCategory.PRODUCT,
             title: 'Print adjuster',
             logo: PrintAdjusterLogo,
+        },
+    },
+    {
+        path: '/3dttt',
+        component: App3DTTTPage,
+        drawer: {
+            category: DrawerCategory.PRODUCT,
+            title: '3D Tic Tac Toe',
+            logo: App3DTTTLogo,
         },
     },
     {
